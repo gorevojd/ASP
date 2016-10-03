@@ -38,13 +38,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <CalendarView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/calendarView3"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,4 +48,20 @@
         android:layout_marginBottom="18dp"
         android:layout_above="@+id/deleteButton"
         android:layout_centerHorizontal="true" />
+
+    <CalendarView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/calendarView3"
+        android:layout_alignStart="@+id/addButton" />
+
+    <Button
+        android:text="DeleteFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editText"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/deleteFileButton" />
+
 </RelativeLayout>

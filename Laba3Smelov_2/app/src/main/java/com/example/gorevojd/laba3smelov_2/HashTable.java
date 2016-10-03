@@ -89,6 +89,7 @@ public class HashTable {
                             b = false;
                         }
                         else{
+
                             ByteBuffer  wrapped = ByteBuffer.wrap(offsetBuf);
                             int nextKeyOffset = wrapped.getInt();
                             cursorTartetBytePos = nextKeyOffset;

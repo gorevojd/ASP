@@ -7,12 +7,7 @@ import java.util.ArrayList;
  */
 
 public class Zametki{
-    static final int capacity = 10;
-    private ArrayList<Para> pares;
-
-    public Zametki(){
-        this.pares = new ArrayList<Para>(capacity);
-    }
+    public ArrayList<Para> pares;
 
     public Zametki(ArrayList<Para> pares) {
         this.pares = pares;
@@ -35,20 +30,30 @@ public class Zametki{
     }
 
     public boolean AddZametka(Para para){
-        if(pares.size() >= Zametki.capacity){
-            return false;
+        int findFileRes = FindZametkaByData(para.getmValue());
+        if(findFileRes < 0){
+            if(pares.size() >= 10){
+                return false;
+            }
+            else{
+                pares.add(para);
+                return true;
+            }
         }
         else{
-            pares.add(para);
-            return true;
+            return false;
         }
     }
 
     public int FindZametkaByData(long data){
         int res = -1;
         for(int i = 0; i < pares.size(); i++){
-            if(pares.get(i).getmValue() == data){
-                return i;
+            Para tmpPare = pares.get(i);
+            long tempDate = tmpPare.getmValue();
+            boolean eq = new Long(tempDate).equals(new Long(data));
+            if(eq){
+                res = i;
+                break;
             }
         }
         return res;

@@ -5,16 +5,36 @@ package com.example.gorevojd.laba4smelov;
  */
 
 public class Para {
-    private long mValue;
+    private Long mValue;
     private String mZametka;
+
+    public Para(){
+
+    }
 
     public Para(long mValue, String mZametka) {
         this.mValue = mValue;
         this.mZametka = mZametka;
     }
 
+    public String getmZametka() {
+        return mZametka;
+    }
+
+    public void setmZametka(String mZametka) {
+        this.mZametka = mZametka;
+    }
+
     public long getmValue() {
         return mValue;
+    }
+
+    @Override
+    public String toString() {
+        return "Para{" +
+                "mValue=" + mValue +
+                ", mZametka='" + mZametka + '\'' +
+                '}';
     }
 
     public void setmValue(long mValue) {
