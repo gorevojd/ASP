@@ -52,24 +52,23 @@
         android:text="AddNewStudent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="55dp"
+        android:layout_marginStart="55dp"
+        android:id="@+id/AddNewStudent"
+        android:layout_alignBaseline="@+id/deleteButton"
+        android:layout_alignBottom="@+id/deleteButton"
         android:layout_toRightOf="@+id/generateButton"
-        android:layout_toEndOf="@+id/generateButton"
-        android:layout_marginLeft="26dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginBottom="56dp"
-        android:id="@+id/AddNewStudent" />
+        android:layout_toEndOf="@+id/generateButton" />
 
     <Button
         android:text="Admin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/AddNewStudent"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="67dp"
-        android:layout_marginEnd="67dp"
-        android:layout_marginBottom="28dp"
-        android:id="@+id/adminButton" />
-
+        android:id="@+id/adminButton"
+        android:layout_alignBaseline="@+id/AddNewStudent"
+        android:layout_alignBottom="@+id/AddNewStudent"
+        android:layout_toRightOf="@+id/AddNewStudent"
+        android:layout_toEndOf="@+id/AddNewStudent"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp" />
 </RelativeLayout>

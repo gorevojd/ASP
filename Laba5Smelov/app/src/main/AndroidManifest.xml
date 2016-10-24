@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dima.oop4_5">
+    package="com.example.gorevojd.laba5smelov">
 
     <application
         android:allowBackup="true"
@@ -15,12 +15,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EnterNameActivity" />
-        <activity android:name=".EnterFamilyNameActivity" />
-        <activity android:name=".EnterMarkAndDateActivity" />
-        <activity android:name=".EnterDateActivity" />
-        <activity android:name=".VerifyInfoActivity" />
-        <activity android:name=".AdminActivity"></activity>
     </application>
 
 </manifest>

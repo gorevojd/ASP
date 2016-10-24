@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -31,7 +32,9 @@ public class CurseManager {
 
     public static Curse DeserializeCurse(String s){
         Gson gs = new Gson();
-        return new Curse(gs.fromJson(s, new ArrayList<Pupil>().getClass()));
+        ArrayList<Pupil> temparray = gs.fromJson(s, new TypeToken<ArrayList<Pupil>>(){}.getType());
+        Curse Result = new Curse(temparray);
+        return Result;
     }
 
     public static int countStudentsOnCurse(Curse cur){

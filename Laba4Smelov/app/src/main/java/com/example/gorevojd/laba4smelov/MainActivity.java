@@ -75,10 +75,12 @@ public class MainActivity extends AppCompatActivity {
                 long tempTime = tempDate.getTime();
                 int tYear = tempDate.getYear();
                 int tMonth = tempDate.getMonth();
-                if(zametki.FindZametkaByData(tempTime) >= 0){
+                int FoundIndex = zametki.FindZametkaByData(tempTime);
+                if(FoundIndex >= 0){
                     mAddButton.setVisibility(View.INVISIBLE);
                     mDeleteButton.setVisibility(View.VISIBLE);
                     mChangeButton.setVisibility(View.VISIBLE);
+                    mEditText.setText(zametki.getPares().get(FoundIndex).getmZametka());
                 }
                 else{
                     mAddButton.setVisibility(View.VISIBLE);

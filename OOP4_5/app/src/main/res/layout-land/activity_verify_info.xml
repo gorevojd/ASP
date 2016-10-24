@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_verify_info"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.dima.oop4_5.VerifyInfoActivity">
+
+    <TextView
+        android:text="Name: "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="27dp"
+        android:id="@+id/VerifyTV1" />
+
+    <TextView
+        android:text="FamilyName: "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/VerifyTV1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="21dp"
+        android:id="@+id/VerifyTV2" />
+
+    <TextView
+        android:text="Mark:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/VerifyTV2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="27dp"
+        android:id="@+id/VerifyTV3" />
+
+    <TextView
+        android:text="Year:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/VerifyTV3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:id="@+id/VerifyTV4" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/EditTextNameVerify"
+        android:layout_toRightOf="@+id/VerifyTV2"
+        android:layout_toEndOf="@+id/VerifyTV2"
+        android:id="@+id/EditTextVerifyFamilyName" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/EditTextVerifyYear"
+        android:layout_below="@+id/VerifyTV3"
+        android:layout_toRightOf="@+id/VerifyTV1"
+        android:layout_toEndOf="@+id/VerifyTV1" />
+
+    <Button
+        android:text="Add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:id="@+id/FinishAddButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="17dp"
+        android:layout_marginEnd="17dp" />
+
+    <Button
+        android:text="Change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ChangeVerifyInfoBut"
+        android:layout_alignBaseline="@+id/FinishAddButton"
+        android:layout_alignBottom="@+id/FinishAddButton"
+        android:layout_toLeftOf="@+id/FinishAddButton"
+        android:layout_toStartOf="@+id/FinishAddButton"
+        android:layout_marginRight="30dp"
+        android:layout_marginEnd="30dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/EditTextVerifyMark"
+        android:layout_below="@+id/EditTextVerifyFamilyName"
+        android:layout_alignRight="@+id/EditTextVerifyFamilyName"
+        android:layout_alignEnd="@+id/EditTextVerifyFamilyName"
+        android:layout_marginRight="19dp"
+        android:layout_marginEnd="19dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/EditTextNameVerify"
+        android:layout_above="@+id/VerifyTV2"
+        android:layout_alignLeft="@+id/EditTextVerifyFamilyName"
+        android:layout_alignStart="@+id/EditTextVerifyFamilyName" />
+</RelativeLayout>
