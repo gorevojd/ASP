@@ -1,6 +1,7 @@
 package com.example.gorevojd.laba5smelov;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     public Button UpdateButton;
     public Button DeleteButton;
     public Button DeleteAllButton;
+    public Button NextButton;
 
     public EditText IdEditText;
     public EditText FloatEditText;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         UpdateButton = (Button)findViewById(R.id.UpdateButton);
         DeleteButton = (Button)findViewById(R.id.DeleteButton);
         DeleteAllButton = (Button)findViewById(R.id.DeleteAllButton);
+        NextButton = (Button)findViewById(R.id.NextButton);
 
         IdEditText = (EditText)findViewById(R.id.id_EditText);
         FloatEditText = (EditText)findViewById(R.id.f_EditText);
@@ -125,6 +128,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int NumberDeleted = db.delete("MainTable", null, null);
                 Log.d("Laba5 delete all: ", String.format("deleted %d rows", NumberDeleted));
+            }
+        });
+
+        NextButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent newIntent = new Intent(MainActivity.this, Main2Activity.class);
+                startActivity(newIntent);
             }
         });
     }
