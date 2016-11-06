@@ -3,9 +3,14 @@ package com.example.dima.oop4_5;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -14,6 +19,8 @@ import java.util.List;
 public class AdminActivity extends AppCompatActivity {
 
     public ListView listView;
+    Curse curse;
+    ArrayAdapter<String> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +32,7 @@ public class AdminActivity extends AppCompatActivity {
         Intent ourIntent = this.getIntent();
         Bundle extras = ourIntent.getExtras();
         String CurseString = extras.getString("CurseString");
-        Curse curse = CurseManager.DeserializeCurse(CurseString);
+        curse = CurseManager.DeserializeCurse(CurseString);
 
         ArrayList<String> WtfNames = new ArrayList<String>();
         for(int i = 0; i < curse.getCursePupils().size(); i++){
@@ -37,18 +44,46 @@ public class AdminActivity extends AppCompatActivity {
             WtfNames.add(sb.toString());
         }
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        arrayAdapter = new ArrayAdapter<String>(
                 AdminActivity.this,
-                R.layout.list_item_xml,
+                android.R.layout.simple_list_item_checked,
                 WtfNames);
-        arrayAdapter.addAll(WtfNames);
+
+        //arrayAdapter.addAll(WtfNames);
         listView.setAdapter(arrayAdapter);
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
                 return true;
             }
         });
+
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                ((CheckedTextView)view).setChecked(!((CheckedTextView)view).isChecked());
+//            }
+//        });
     }
+    /*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.my_menu, menu);
+        return true;
+    }
+
+    public void deleteSelectedClick(MenuItem item){
+        SparseBooleanArray ba = listView.getCheckedItemPositions();
+        ArrayList<Pupil> tempAL = new ArrayList<Pupil>();
+        for(int i = 0; i < curse.getCursePupils().size(); i++){
+            if(ba.valueAt(i) == true){
+                tempAL.add(curse.getCursePupils().get(i));
+            }
+        }
+        curse.getCursePupils().removeAll(tempAL);
+    }
+    */
 }

@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 
@@ -23,6 +25,7 @@ import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
 
+    public Button mLoginButton;
     public Button mWriteButton;
     public Button mReadButton;
     public Button mGenerateButton;
@@ -115,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         mDeleteButton = (Button)findViewById(R.id.deleteButton);
         mAddNewStudentButton = (Button)findViewById(R.id.AddNewStudent);
         mAdminButton = (Button)findViewById(R.id.adminButton);
+        mLoginButton = (Button)findViewById(R.id.loginButton);
 
         curseManager = new CurseManager();
         curse = new Curse();
@@ -270,8 +274,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
+        mLoginButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent newIntent = new Intent(MainActivity.this, LoginActivity.class);
+                String CurseString = CurseManager.SerializeCurse(curse);
+                newIntent.putExtra("CurseString", CurseString);
+                startActivity(newIntent);
+            }
+        });
 
+    }
+/*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.my_menu, menu);
+        return true;
+    }
+*/
     @Override
     protected void onStart() {
         super.onStart();
