@@ -26,7 +26,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
         db.execSQL(
                 "create table STUDENTS(" +
                         "IDGROUP integer," +
-                        "IDSTUDENT integer," +
+                        "IDSTUDENT integer primary key," +
                         "NAME text," +
                         "foreign key(IDGROUP) references STUDGROUPS(IDGROUP) on delete cascade on update cascade);");
     }

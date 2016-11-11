@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,51 +48,72 @@ public class StudActivity extends AppCompatActivity {
         InsertButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                ContentValues cv = new ContentValues();
-                cv.put("IDGROUP", GetGroupId());
-                cv.put("IDSTUDENT", GetStudentId());
-                cv.put("NAME", GetName());
-                long RowId = db.insert("STUDENTS", null, cv);
-                Log.d("Laba6 insert: ", String.valueOf(RowId));
+                try {
+                    ContentValues cv = new ContentValues();
+                    cv.put("IDGROUP", GetGroupId());
+                    cv.put("IDSTUDENT", GetStudentId());
+                    cv.put("NAME", GetName());
+                    long RowId = db.insert("STUDENTS", null, cv);
+                    Log.d("Laba6 insert: ", String.valueOf(RowId));
+                }
+                catch(SQLiteException e){
+                        Log.d("LAB6", e.getMessage());
+                }
             }
         });
 
         DeleteButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+             try{
                 int IdValue = GetStudentId();
                 int NumberDeleted = db.delete("STUDENTS", "IDSTUDENT=?", new String[]{String.valueOf(IdValue)});
                 Log.d("Laba6 delete where: ", String.format("deleted %d rows", NumberDeleted));
+            }
+            catch(SQLiteException e){
+                Log.d("LAB6", e.getMessage());
+            }
             }
         });
 
         UpdateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                ContentValues cv = new ContentValues();
-                cv.put("IDGROUP", GetGroupId());
-                cv.put("IDSTUDENT", GetStudentId());
-                cv.put("NAME", GetName());
-                int c = db.update("STUDENTS", cv, "IDSTUDENT=?", new String[]{String.valueOf(GetStudentId())});
-                Log.d("Laba6 update where: ", "Number of changed rows: " + String.valueOf(c));
-                SetValues(GetGroupId(), GetStudentId(), GetName());
+                try{
+                    ContentValues cv = new ContentValues();
+                    cv.put("IDGROUP", GetGroupId());
+                    cv.put("IDSTUDENT", GetStudentId());
+                    cv.put("NAME", GetName());
+                    int c = db.update("STUDENTS", cv, "IDSTUDENT=?", new String[]{String.valueOf(GetStudentId())});
+                    Log.d("Laba6 update where: ", "Number of changed rows: " + String.valueOf(c));
+                    SetValues(GetGroupId(), GetStudentId(), GetName());
+                }
+                catch(SQLiteException e){
+                    Log.d("LAB6", e.getMessage());
+                }
             }
         });
 
         SelectButton.setOnClickListener(new View.OnClickListener(){
+
             @Override
-            public void onClick(View v) {
-                int IdValue = GetStudentId();
-                Cursor c = db.rawQuery("SELECT IDGROUP, IDSTUDENT, NAME FROM STUDENTS WHERE IDSTUDENT=?", new String[]{String.format("%d", IdValue)});
-                //Cursor c = db.query("STUDGROUPS", new String[]{"IDGROUP", "FACULTY", "COURSE", "NAMEk","HEAD"},
-                //       "IDGROUR=?", new String[]{String.valueOf(IdValue)}, null, null, null);
-                int IdGroupValue = -1;
-                String NameValue = new String();
-                if (c.moveToFirst()) {
-                    IdGroupValue = c.getInt(0);
-                    NameValue = c.getString(2);
+            public void onClick(View v){
+                 try{
+                    int IdValue = GetStudentId();
+                    Cursor c = db.rawQuery("SELECT IDGROUP, IDSTUDENT, NAME FROM STUDENTS WHERE IDSTUDENT=?", new String[]{String.format("%d", IdValue)});
+                    //Cursor c = db.query("STUDGROUPS", new String[]{"IDGROUP", "FACULTY", "COURSE", "NAMEk","HEAD"},
+                    //       "IDGROUR=?", new String[]{String.valueOf(IdValue)}, null, null, null);
+                    int IdGroupValue = -1;
+                    String NameValue = new String();
+                    if (c.moveToFirst()) {
+                        IdGroupValue = c.getInt(0);
+                        NameValue = c.getString(2);
+                    }
+                    SetValues(IdGroupValue, IdValue, NameValue);
                 }
-                SetValues(IdGroupValue, IdValue, NameValue);
+                catch(SQLiteException e){
+                    Log.d("LAB6", e.getMessage());
+                }
             }
         });
 

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,12 +20,14 @@ public class MainActivity extends AppCompatActivity {
     public Button SelectButton;
     public Button NextButton;
     public Button ListButton;
+    public Button ListButton2;
 
     public EditText IdgroupET;
     public EditText FacultyET;
     public EditText CourseET;
     public EditText NameET;
     public EditText HeadET;
+    public EditText Idgroup2ET;
 
 
     MyDBHelper dbhelper = new MyDBHelper(this);
@@ -43,13 +46,14 @@ public class MainActivity extends AppCompatActivity {
         SelectButton = (Button)findViewById(R.id.SelectButton1);
         NextButton = (Button)findViewById(R.id.NextButton1);
         ListButton = (Button)findViewById(R.id.ListButton1);
+        ListButton2 = (Button)findViewById(R.id.ListButton2_1);
 
         IdgroupET = (EditText)findViewById(R.id.idet1);
         FacultyET = (EditText)findViewById(R.id.facet1);
         CourseET = (EditText)findViewById(R.id.courseet1);
         NameET = (EditText)findViewById(R.id.nameet1);
         HeadET = (EditText)findViewById(R.id.headet1);
-
+        Idgroup2ET = (EditText)findViewById(R.id.idET1_1);
 
         /*
 
@@ -65,59 +69,85 @@ HEAD	Староста группы
         InsertButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                ContentValues cv = new ContentValues();
-                cv.put("IDGROUP", GetId());
-                cv.put("FACULTY", GetFaculty());
-                cv.put("COURSE", GetCourse());
-                cv.put("NAME", GetName());
-                cv.put("HEAD", GetHead());
-                long RowId = db.insert("STUDGROUPS", null, cv);
-                Log.d("Laba6 insert: ", String.valueOf(RowId));
+                try{
+                    ContentValues cv = new ContentValues();
+                    cv.put("IDGROUP", GetId());
+                    cv.put("FACULTY", GetFaculty());
+                    cv.put("COURSE", GetCourse());
+                    cv.put("NAME", GetName());
+                    cv.put("HEAD", GetHead());
+                    long RowId = db.insert("STUDGROUPS", null, cv);
+                    Log.d("Laba6 insert: ", String.valueOf(RowId));
+                }
+                catch(SQLiteException e){
+                    Log.d("LAB6", e.getMessage());
+                }
             }
         });
 
         DeleteButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                int IdValue = GetId();
-                int NumberDeleted = db.delete("STUDGROUPS", "IDGROUP=?", new String[]{String.valueOf(IdValue)});
-                Log.d("Laba6 delete where: ", String.format("deleted %d rows", NumberDeleted));
+                try{
+                    int IdValue = GetId();
+                    int NumberDeleted = db.delete("STUDGROUPS", "IDGROUP=?", new String[]{String.valueOf(IdValue)});
+                    Log.d("Laba6 delete where: ", String.format("deleted %d rows", NumberDeleted));
+                }
+                catch(SQLiteException e){
+                    Log.d("LAB6", e.getMessage());
+                }
             }
         });
 
         UpdateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                ContentValues cv = new ContentValues();
-                cv.put("IDGROUP", GetId());
-                cv.put("FACULTY", GetFaculty());
-                cv.put("COURSE", GetCourse());
-                cv.put("NAME", GetName());
-                cv.put("HEAD", GetHead());
-                int c = db.update("STUDGROUPS", cv, "IDGROUP=?", new String[]{String.valueOf(GetId())});
-                Log.d("Laba6 update where: ", "Number of changed rows: " + String.valueOf(c));
-                SetValues(GetId(), GetFaculty(), GetCourse(), GetName(), GetHead());
+                try{
+
+                    ContentValues cv = new ContentValues();
+                    if(Idgroup2ET.length() != 0){
+                        cv.put("IDGROUP", Idgroup2ET.getText().toString());
+                    }
+                    else{
+                        cv.put("IDGROUP", GetId());
+                    }
+                    cv.put("FACULTY", GetFaculty());
+                    cv.put("COURSE", GetCourse());
+                    cv.put("NAME", GetName());
+                    cv.put("HEAD", GetHead());
+                    int c = db.update("STUDGROUPS", cv, "IDGROUP=?", new String[]{String.valueOf(GetId())});
+                    Log.d("Laba6 update where: ", "Number of changed rows: " + String.valueOf(c));
+                    SetValues(GetId(), GetFaculty(), GetCourse(), GetName(), GetHead());
+                }
+                catch(SQLiteException e){
+                    Log.d("LAB6", e.getMessage());
+                }
             }
         });
 
         SelectButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                int IdValue = GetId();
-                Cursor c = db.rawQuery("SELECT IDGROUP, FACULTY, COURSE, NAME, HEAD FROM STUDGROUPS WHERE IDGROUP=?", new String[]{String.format("%d", IdValue)});
-                //Cursor c = db.query("STUDGROUPS", new String[]{"IDGROUP", "FACULTY", "COURSE", "NAMEk","HEAD"},
-                 //       "IDGROUR=?", new String[]{String.valueOf(IdValue)}, null, null, null);
-                String FacultyValue = new String();
-                int CurseValue  = -1;
-                String NameValue = new String();
-                String HeadValue = new String();
-                if (c.moveToFirst()) {
-                    FacultyValue = c.getString(1);
-                    CurseValue = c.getInt(2);
-                    NameValue = c.getString(3);
-                    HeadValue = c.getString(4);
+                try{
+                    int IdValue = GetId();
+                    Cursor c = db.rawQuery("SELECT IDGROUP, FACULTY, COURSE, NAME, HEAD FROM STUDGROUPS WHERE IDGROUP=?", new String[]{String.format("%d", IdValue)});
+                    //Cursor c = db.query("STUDGROUPS", new String[]{"IDGROUP", "FACULTY", "COURSE", "NAMEk","HEAD"},
+                     //       "IDGROUR=?", new String[]{String.valueOf(IdValue)}, null, null, null);
+                    String FacultyValue = new String();
+                    int CurseValue  = -1;
+                    String NameValue = new String();
+                    String HeadValue = new String();
+                    if (c.moveToFirst()) {
+                        FacultyValue = c.getString(1);
+                        CurseValue = c.getInt(2);
+                        NameValue = c.getString(3);
+                        HeadValue = c.getString(4);
+                    }
+                    SetValues(IdValue, FacultyValue, CurseValue, NameValue, HeadValue);
                 }
-                SetValues(IdValue, FacultyValue, CurseValue, NameValue, HeadValue);
+                catch(SQLiteException e){
+                    Log.d("LAB6", e.getMessage());
+                }
             }
         });
 
@@ -134,6 +164,14 @@ HEAD	Староста группы
             public void onClick(View view) {
                 Intent wtfIntent = new Intent(MainActivity.this, StudentListActivity.class);
                 wtfIntent.putExtra("GroupId", GetId());
+                startActivity(wtfIntent);
+            }
+        });
+
+        ListButton2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent wtfIntent = new Intent(MainActivity.this, List2Activity.class);
                 startActivity(wtfIntent);
             }
         });
