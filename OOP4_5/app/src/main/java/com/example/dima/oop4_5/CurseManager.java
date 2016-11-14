@@ -85,7 +85,7 @@ public class CurseManager {
         return res;
     }
 
-    public static ArrayList<Student> SortByYear(Curse cur){
+    public static void SortByYear(Curse cur){
         ArrayList<Student> res = new ArrayList<Student>();
         for(int i = 0; i < cur.getCursePupils().size(); i++){
             if(cur.getCursePupils().get(i).getClass() == Student.class){
@@ -93,8 +93,9 @@ public class CurseManager {
             }
         }
         Collections.sort(res, Student.StudentYearComparator);
-        return res;
+        cur.getCursePupils() = (ArrayList<Pupil>)res;
     }
+
 
     public static void PrintStudents(ArrayList<Student> sts){
         for(int i = 0; i < sts.size(); i++){

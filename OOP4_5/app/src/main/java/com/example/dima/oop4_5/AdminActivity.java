@@ -46,28 +46,32 @@ public class AdminActivity extends AppCompatActivity {
 
         arrayAdapter = new ArrayAdapter<String>(
                 AdminActivity.this,
-                android.R.layout.simple_list_item_checked,
+                android.R.layout.simple_list_item_multiple_choice,
                 WtfNames);
 
         //arrayAdapter.addAll(WtfNames);
         listView.setAdapter(arrayAdapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
+                boolean ValueToSet = !((CheckedTextView)view).isChecked();
+                listView.setItemChecked(position, ValueToSet);
+                listView.isItemChecked(position);
                 return true;
             }
         });
 
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                ((CheckedTextView)view).setChecked(!((CheckedTextView)view).isChecked());
-//            }
-//        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+            }
+        });
     }
-    /*
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
@@ -78,12 +82,37 @@ public class AdminActivity extends AppCompatActivity {
     public void deleteSelectedClick(MenuItem item){
         SparseBooleanArray ba = listView.getCheckedItemPositions();
         ArrayList<Pupil> tempAL = new ArrayList<Pupil>();
+        /*
         for(int i = 0; i < curse.getCursePupils().size(); i++){
             if(ba.valueAt(i) == true){
                 tempAL.add(curse.getCursePupils().get(i));
             }
         }
+        */
+        for(int i = 0; i < ba.size(); i++){
+            if(ba.valueAt(i) == true){
+                tempAL.add(curse.getCursePupils().get(ba.keyAt(i)));
+            }
+        }
         curse.getCursePupils().removeAll(tempAL);
+
+        ArrayList<String> Wtf1Names = new ArrayList<String>();
+        for(int i = 0; i < curse.getCursePupils().size(); i++){
+            Pupil pup = curse.getCursePupils().get(i);
+            StringBuilder sb = new StringBuilder();
+            sb.append(pup.getmName());
+            sb.append(" ");
+            sb.append(pup.getmFamilyName());
+            Wtf1Names.add(sb.toString());
+
+            arrayAdapter = new ArrayAdapter<String>(
+                    AdminActivity.this,
+                    android.R.layout.simple_list_item_multiple_choice,
+                    Wtf1Names);
+
+            //arrayAdapter.addAll(WtfNames);
+            listView.setAdapter(arrayAdapter);
+            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        }
     }
-    */
 }

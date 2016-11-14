@@ -82,4 +82,13 @@
         android:layout_marginBottom="11dp"
         android:id="@+id/loginButton" />
 
+    <Button
+        android:text="Sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/AddNewStudent"
+        android:layout_toLeftOf="@+id/AddNewStudent"
+        android:layout_toStartOf="@+id/AddNewStudent"
+        android:id="@+id/SortButton" />
+
 </RelativeLayout>

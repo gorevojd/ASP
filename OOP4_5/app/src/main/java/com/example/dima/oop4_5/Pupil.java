@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.lang.Math.*;
+import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -57,5 +58,4 @@ public class Pupil {
         mName = names[temp1];
         mFamilyName = familyNames[temp2];
     }
-
 }

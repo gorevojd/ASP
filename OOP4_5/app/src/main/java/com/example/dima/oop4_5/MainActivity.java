@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     public Button mDeleteButton;
     public Button mAddNewStudentButton;
     public Button mAdminButton;
+    public Button mSortButton;
 
     private CurseManager curseManager;
     private Curse curse;
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         mAddNewStudentButton = (Button)findViewById(R.id.AddNewStudent);
         mAdminButton = (Button)findViewById(R.id.adminButton);
         mLoginButton = (Button)findViewById(R.id.loginButton);
+        mSortButton = (Button)findViewById(R.id.SortButton);
 
         curseManager = new CurseManager();
         curse = new Curse();
@@ -281,6 +283,13 @@ public class MainActivity extends AppCompatActivity {
                 String CurseString = CurseManager.SerializeCurse(curse);
                 newIntent.putExtra("CurseString", CurseString);
                 startActivity(newIntent);
+            }
+        });
+
+        mSortButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                curse.getCursePupils() = CurseManager.SortByYear(curse);
             }
         });
 
