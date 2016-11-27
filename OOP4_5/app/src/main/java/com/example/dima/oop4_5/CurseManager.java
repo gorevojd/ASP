@@ -85,17 +85,9 @@ public class CurseManager {
         return res;
     }
 
-    public static void SortByYear(Curse cur){
-        ArrayList<Student> res = new ArrayList<Student>();
-        for(int i = 0; i < cur.getCursePupils().size(); i++){
-            if(cur.getCursePupils().get(i).getClass() == Student.class){
-                res.add((Student)cur.getCursePupils().get(i));
-            }
-        }
-        Collections.sort(res, Student.StudentYearComparator);
-        cur.getCursePupils() = (ArrayList<Pupil>)res;
+    public static void SortByName(Curse cur){
+        Collections.sort(generateCurse().getCursePupils(), Pupil.PupilNameComparator);
     }
-
 
     public static void PrintStudents(ArrayList<Student> sts){
         for(int i = 0; i < sts.size(); i++){

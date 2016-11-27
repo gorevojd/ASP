@@ -53,11 +53,11 @@ public class StudActivity extends AppCompatActivity {
                     cv.put("IDGROUP", GetGroupId());
                     cv.put("IDSTUDENT", GetStudentId());
                     cv.put("NAME", GetName());
-                    long RowId = db.insert("STUDENTS", null, cv);
+                    long RowId = db.insertOrThrow("STUDENTS", null, cv);
                     Log.d("Laba6 insert: ", String.valueOf(RowId));
                 }
                 catch(SQLiteException e){
-                        Log.d("LAB6", e.getMessage());
+                    Log.d("LAB6", e.getMessage());
                 }
             }
         });
@@ -65,14 +65,14 @@ public class StudActivity extends AppCompatActivity {
         DeleteButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-             try{
-                int IdValue = GetStudentId();
-                int NumberDeleted = db.delete("STUDENTS", "IDSTUDENT=?", new String[]{String.valueOf(IdValue)});
-                Log.d("Laba6 delete where: ", String.format("deleted %d rows", NumberDeleted));
-            }
-            catch(SQLiteException e){
-                Log.d("LAB6", e.getMessage());
-            }
+                try{
+                    int IdValue = GetStudentId();
+                    int NumberDeleted = db.delete("STUDENTS", "IDSTUDENT=?", new String[]{String.valueOf(IdValue)});
+                    Log.d("Laba6 delete where: ", String.format("deleted %d rows", NumberDeleted));
+                }
+                catch(SQLiteException e){
+                    Log.d("LAB6", e.getMessage());
+                }
             }
         });
 

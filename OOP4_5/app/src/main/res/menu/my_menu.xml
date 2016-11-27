@@ -4,4 +4,8 @@
         android:id="@+id/newA"
         android:title="Delete selected"
         android:onClick="deleteSelectedClick"/>
+    <item
+        android:id="@+id/newB"
+        android:title="Sort"
+        android:onClick="sortClick"/>
 </menu>

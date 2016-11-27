@@ -3,6 +3,7 @@ package com.example.dima.oop4_5;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,7 @@ import android.widget.CheckedTextView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AdminActivity extends AppCompatActivity {
@@ -77,6 +79,30 @@ public class AdminActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.my_menu, menu);
         return true;
+    }
+
+    public void sortClick(MenuItem item){
+        //CurseManager.SortByName(curse);
+
+        ArrayList<String> Wtf1Names = new ArrayList<String>();
+        for(int i = 0; i < curse.getCursePupils().size(); i++){
+            Pupil pup = curse.getCursePupils().get(i);
+            StringBuilder sb = new StringBuilder();
+            sb.append(pup.getmName());
+            sb.append(" ");
+            sb.append(pup.getmFamilyName());
+            Wtf1Names.add(sb.toString());
+        }
+
+        Collections.sort(Wtf1Names);
+
+        arrayAdapter = new ArrayAdapter<String>(
+                AdminActivity.this,
+                android.R.layout.simple_list_item_multiple_choice,
+                Wtf1Names);
+
+        listView.setAdapter(arrayAdapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
 
     public void deleteSelectedClick(MenuItem item){

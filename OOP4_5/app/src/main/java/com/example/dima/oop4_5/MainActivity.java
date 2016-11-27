@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
         mSortButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                curse.getCursePupils() = CurseManager.SortByYear(curse);
+             //   curse.getCursePupils() = CurseManager.SortByYear(curse);
             }
         });
 

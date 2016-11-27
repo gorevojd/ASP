@@ -58,4 +58,10 @@ public class Pupil {
         mName = names[temp1];
         mFamilyName = familyNames[temp2];
     }
+
+    public static Comparator<Pupil> PupilNameComparator = new Comparator<Pupil>(){
+        public int compare(Pupil st1, Pupil st2){
+            return st1.getmName().compareTo(st2.getmName());
+        }
+    };
 }
