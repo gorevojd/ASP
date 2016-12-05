@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     public Button NextButton;
     public Button ListButton;
     public Button ListButton2;
+    public Button DeleteAllButton;
 
     public EditText IdgroupET;
     public EditText FacultyET;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         NextButton = (Button)findViewById(R.id.NextButton1);
         ListButton = (Button)findViewById(R.id.ListButton1);
         ListButton2 = (Button)findViewById(R.id.ListButton2_1);
+        DeleteAllButton = (Button)findViewById(R.id.deleteAllGroupsBut);
 
         IdgroupET = (EditText)findViewById(R.id.idet1);
         FacultyET = (EditText)findViewById(R.id.facet1);
@@ -76,8 +79,11 @@ HEAD	Староста группы
                     cv.put("COURSE", GetCourse());
                     cv.put("NAME", GetName());
                     cv.put("HEAD", GetHead());
-                    long RowId = db.insert("STUDGROUPS", null, cv);
-                    Log.d("Laba6 insert: ", String.valueOf(RowId));
+                    //long RowId = db.insert("STUDGROUPS", null, cv);
+                    Uri tempUri = Uri.parse(MyContentProvider.GROUP_CONTENT_URI_STRING);
+                    Uri uri = getContentResolver().insert(tempUri, cv);
+                    Log.d("Laba6 insert: ", uri.toString());
+                    //Log.d("Laba6 insert: ", String.valueOf(RowId));
                 }
                 catch(SQLiteException e){
                     Log.d("LAB6", e.getMessage());
@@ -90,7 +96,23 @@ HEAD	Староста группы
             public void onClick(View v) {
                 try{
                     int IdValue = GetId();
-                    int NumberDeleted = db.delete("STUDGROUPS", "IDGROUP=?", new String[]{String.valueOf(IdValue)});
+                    //int NumberDeleted = db.delete("STUDGROUPS", "IDGROUP=?", new String[]{String.valueOf(IdValue)});
+                    Uri uri = Uri.parse(MyContentProvider.GROUP_CONTENT_URI_STRING + "/" + String.valueOf(IdValue));
+                    int NumberDeleted = getContentResolver().delete(uri, null, null);
+                    Log.d("Laba6 delete where: ", String.format("deleted %d rows", NumberDeleted));
+                }
+                catch(SQLiteException e){
+                    Log.d("LAB6", e.getMessage());
+                }
+            }
+        });
+
+        DeleteAllButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                try{
+                    Uri uri = Uri.parse(MyContentProvider.GROUP_CONTENT_URI_STRING);
+                    int NumberDeleted = getContentResolver().delete(uri, null, null);
                     Log.d("Laba6 delete where: ", String.format("deleted %d rows", NumberDeleted));
                 }
                 catch(SQLiteException e){
@@ -105,17 +127,22 @@ HEAD	Староста группы
                 try{
 
                     ContentValues cv = new ContentValues();
+                    int GroupId;
                     if(Idgroup2ET.length() != 0){
                         cv.put("IDGROUP", Idgroup2ET.getText().toString());
+                        GroupId = Integer.valueOf(Idgroup2ET.getText().toString());
                     }
                     else{
                         cv.put("IDGROUP", GetId());
+                        GroupId = Integer.valueOf(GetId());
                     }
                     cv.put("FACULTY", GetFaculty());
                     cv.put("COURSE", GetCourse());
                     cv.put("NAME", GetName());
                     cv.put("HEAD", GetHead());
-                    int c = db.update("STUDGROUPS", cv, "IDGROUP=?", new String[]{String.valueOf(GetId())});
+                    //int c = db.update("STUDGROUPS", cv, "IDGROUP=?", new String[]{String.valueOf(GetId())});
+                    Uri uri = Uri.parse(MyContentProvider.GROUP_CONTENT_URI_STRING + "/" + String.valueOf(GroupId));
+                    int c = getContentResolver().update(uri, cv, null, null);
                     Log.d("Laba6 update where: ", "Number of changed rows: " + String.valueOf(c));
                     SetValues(GetId(), GetFaculty(), GetCourse(), GetName(), GetHead());
                 }
@@ -172,6 +199,13 @@ HEAD	Староста группы
             @Override
             public void onClick(View view) {
                 Intent wtfIntent = new Intent(MainActivity.this, List2Activity.class);
+                if(IdgroupET.getText().toString().length() > 0){
+                    wtfIntent.putExtra("IsOne", true);
+                    wtfIntent.putExtra("IdGroupExt", GetId());
+                }
+                else{
+                    wtfIntent.putExtra("IsOne", false);
+                }
                 startActivity(wtfIntent);
             }
         });

@@ -194,4 +194,13 @@
         android:layout_alignLeft="@+id/NextButton1"
         android:layout_alignStart="@+id/NextButton1"
         android:id="@+id/idET1_1" />
+
+    <Button
+        android:text="Delete_All"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/DeleteButton1"
+        android:layout_alignLeft="@+id/DeleteButton1"
+        android:layout_alignStart="@+id/DeleteButton1"
+        android:id="@+id/deleteAllGroupsBut" />
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ public class StudActivity extends AppCompatActivity {
     public Button DeleteButton;
     public Button UpdateButton;
     public Button SelectButton;
+    public Button DeleteAllButton;
 
     public Button PrevButton;
 
@@ -38,6 +40,7 @@ public class StudActivity extends AppCompatActivity {
         UpdateButton = (Button)findViewById(R.id.updateBut2);
         SelectButton = (Button)findViewById(R.id.SelectBut2);
         PrevButton = (Button)findViewById(R.id.PrevBut2);
+        DeleteAllButton = (Button)findViewById(R.id.deleteAllFromGroupBut);
 
         GroupET = (EditText)findViewById(R.id.idGroup2);
         IdET = (EditText)findViewById(R.id.idStudent2);
@@ -48,13 +51,16 @@ public class StudActivity extends AppCompatActivity {
         InsertButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                int IdGroup = GetGroupId();
                 try {
                     ContentValues cv = new ContentValues();
                     cv.put("IDGROUP", GetGroupId());
                     cv.put("IDSTUDENT", GetStudentId());
                     cv.put("NAME", GetName());
-                    long RowId = db.insertOrThrow("STUDENTS", null, cv);
-                    Log.d("Laba6 insert: ", String.valueOf(RowId));
+                    //long RowId = db.insertOrThrow("STUDENTS", null, cv);
+                    Uri tempUri = Uri.parse(MyContentProvider.STUD_CONTENT_URI_STRING + "/" + String.valueOf(IdGroup));
+                    Uri uri = getContentResolver().insert(tempUri, cv);
+                    Log.d("insert", uri.toString());
                 }
                 catch(SQLiteException e){
                     Log.d("LAB6", e.getMessage());
@@ -67,7 +73,11 @@ public class StudActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try{
                     int IdValue = GetStudentId();
-                    int NumberDeleted = db.delete("STUDENTS", "IDSTUDENT=?", new String[]{String.valueOf(IdValue)});
+                    int GroupId = GetGroupId();
+                    //int NumberDeleted = db.delete("STUDENTS", "IDSTUDENT=?", new String[]{String.valueOf(IdValue)});
+                    Uri uri = Uri.parse(MyContentProvider.STUD_CONTENT_URI_STRING + "/" +String.valueOf(GroupId) + "/" + String.valueOf(IdValue));
+                    int NumberDeleted = getContentResolver().delete(uri, null, null);
+                    //int NumberDeleted = getContentResolver().delete(MyContentProvider.STUD_CONTENT_URI, "IDSTUDENT=?", new String[]{String.valueOf(IdValue)});
                     Log.d("Laba6 delete where: ", String.format("deleted %d rows", NumberDeleted));
                 }
                 catch(SQLiteException e){
@@ -76,15 +86,35 @@ public class StudActivity extends AppCompatActivity {
             }
         });
 
+        DeleteAllButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                try{
+                    int GroupId = GetGroupId();
+                    Uri uri = Uri.parse(MyContentProvider.STUD_CONTENT_URI_STRING + "/" + String.valueOf(GroupId));
+                    int NumberDeleted = getContentResolver().delete(uri, null, null);
+                    Log.d("Laba6 delete where: ", String.format("deleted %d rows", NumberDeleted));
+                }catch(SQLiteException e){
+
+                }
+            }
+        });
+
         UpdateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 try{
+                    int IdValue = GetStudentId();
+                    int GroupId = GetGroupId();
+
                     ContentValues cv = new ContentValues();
                     cv.put("IDGROUP", GetGroupId());
                     cv.put("IDSTUDENT", GetStudentId());
                     cv.put("NAME", GetName());
-                    int c = db.update("STUDENTS", cv, "IDSTUDENT=?", new String[]{String.valueOf(GetStudentId())});
+                    //int c = db.update("STUDENTS", cv, "IDSTUDENT=?", new String[]{String.valueOf(GetStudentId())});
+                    Uri uri = Uri.parse(MyContentProvider.STUD_CONTENT_URI_STRING + "/" + String.valueOf(GroupId) + "/" + String.valueOf(IdValue));
+                    int c = getContentResolver().delete(uri, null, null);
+                    //int c = getContentResolver().delete(MyContentProvider.STUD_CONTENT_URI, "IDSTUDENT=?", new String[]{String.valueOf(GetStudentId())});
                     Log.d("Laba6 update where: ", "Number of changed rows: " + String.valueOf(c));
                     SetValues(GetGroupId(), GetStudentId(), GetName());
                 }
@@ -100,9 +130,12 @@ public class StudActivity extends AppCompatActivity {
             public void onClick(View v){
                  try{
                     int IdValue = GetStudentId();
-                    Cursor c = db.rawQuery("SELECT IDGROUP, IDSTUDENT, NAME FROM STUDENTS WHERE IDSTUDENT=?", new String[]{String.format("%d", IdValue)});
-                    //Cursor c = db.query("STUDGROUPS", new String[]{"IDGROUP", "FACULTY", "COURSE", "NAMEk","HEAD"},
+                     int GroupId = GetGroupId();
+                    //Cursor c = db.rawQuery("SELECT IDGROUP, IDSTUDENT, NAME FROM STUDENTS WHERE IDSTUDENT=?", new String[]{String.format("%d", IdValue)});
+                    //Cursor c = db.query("STUDGROUPS", new String[]{"IDGROUP", "FACULTY", "COURSE", "NAME","HEAD"},
                     //       "IDGROUR=?", new String[]{String.valueOf(IdValue)}, null, null, null);
+                     Uri uri = Uri.parse(MyContentProvider.STUD_CONTENT_URI_STRING + "/" +String.valueOf(GroupId) + "/" +String.valueOf(IdValue));
+                     Cursor c = getContentResolver().query(uri, null, null, null, null);
                     int IdGroupValue = -1;
                     String NameValue = new String();
                     if (c.moveToFirst()) {

@@ -129,4 +129,13 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="14dp"
         android:layout_marginEnd="14dp" />
+
+    <Button
+        android:text="Delete_All_From_Group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/deleteBut2"
+        android:layout_alignLeft="@+id/InsertBut2"
+        android:layout_alignStart="@+id/InsertBut2"
+        android:id="@+id/deleteAllFromGroupBut" />
 </RelativeLayout>

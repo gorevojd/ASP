@@ -2,6 +2,7 @@ package com.example.gorevojd.laba6smelov;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -24,26 +25,14 @@ public class List2Activity extends AppCompatActivity {
 
         db = dbhelper.getWritableDatabase();
 
+        Bundle extras = getIntent().getExtras();
+        boolean IsOne = extras.getBoolean("IsOne");
+        int IdGroupExt = extras.getInt("IdGroupExt");
+
         listView = (ListView)findViewById(R.id.ListView4);
         ArrayList<String> WtfNames = new ArrayList<String>();
 
-        /*
-        db.execSQL("create view if not exists TempV as SELECT STUDENTS.IDGROUP, STUDGROUPS.HEAD, COUNT(*)" +
-                " FROM STUDENTS JOIN STUDGROUPS" +
-                " ON STUDENTS.IDGROUP=STUDGROUPS.IDGROUP" +
-                " GROUP BY STUDENTS.IDGROUP;");
-        */
-/*
-        db.execSQL("create view if not exists TempV as " +
-                "SELECT TS.IDGROUP, TG.HEAD, TS.STCOUNT " +
-                "FROM(" +
-                "SELECT S.IDGROUP IDGR, count(S.NAME) STCOUNT " +
-                "FROM STUDENTS S " +
-                "GROUP BY s.IDGROUP) TS " +
-                "JOIN STUDGROUPS TG " +
-                "ON TS.IDGR = STUDGROUPS.IDGROUP");
-                */
-
+        db.execSQL("drop view if exists TempV;");
         db.execSQL("create view if not exists TempV as " +
                 "SELECT TS.IDGR, TG.HEAD, COALESCE(TS.STCOUNT, 0) " +
                 "FROM(" +
@@ -53,8 +42,18 @@ public class List2Activity extends AppCompatActivity {
                 "LEFT JOIN STUDGROUPS TG " +
                 "ON TS.IDGR = TG.IDGROUP;");
 
+        //Cursor c = db.rawQuery("SELECT * FROM TempV;", null);
 
-        Cursor c = db.rawQuery("SELECT * FROM TempV;", null);
+        Cursor c;
+        if(IsOne == false){
+            Uri uri = Uri.parse(MyContentProvider.TEMPV_CONTENT_URI_STRING);
+            c = getContentResolver().query(uri, null, null, null, null);
+        }
+        else{
+            Uri uri = Uri.parse(MyContentProvider.TEMPV_CONTENT_URI_STRING + "/" + String.valueOf(IdGroupExt));
+            c = getContentResolver().query(uri, null, null, null, null);
+        }
+
         if (c.moveToFirst()) {
             int i = 0;
             StringBuilder sb = new StringBuilder();

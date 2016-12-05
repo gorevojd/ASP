@@ -53,6 +53,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
                             "NAME text," +
                             "foreign key(IDGROUP) references STUDGROUPS(IDGROUP) on delete cascade on update cascade);");
 
+            /*
             db.execSQL(
             "create trigger if not exists STUDENTS_TRIGGER_INS " +
                     "before insert " +
@@ -64,7 +65,21 @@ public class MyDBHelper extends SQLiteOpenHelper {
                     "end;"
             );
 
+            db.execSQL(
+                    "create trigger if not exists STUDENTS_TRIGGER_DEL " +
+                            "before delete " +
+                            "on STUDENTS " +
+                            "for each row " +
+                            "when (SELECT count(*) FROM STUDENTS STD WHERE STD.IDGROUP = OLD.IDGROUP) < 3 and " +
+                            "(SELECT count(*) " +
+                            "FROM STUDGROUPS WHERE STUDGROUPS.IDGROUP = OLD.IDGROUP) != 0 " +
+                            "begin " +
+                            "SELECT RAISE(ABORT, 'DELETE TRIGGER ERROR'); " +
+                            "end;"
+            );
+            */
 
+/*
             db.execSQL(
             "create trigger if not exists STUDENTS_TRIGGER_DEL " +
                     "before delete " +
@@ -80,7 +95,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
                     "SELECT RAISE(ABORT, 'DELETE TRIGGER ERROR'); " +
                     "end;"
             );
-
+*/
         }
         catch(SQLiteException e){
             Log.d("LAB6 DB Creation", e.getMessage());
